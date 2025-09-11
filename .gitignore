@@ -81,6 +81,11 @@ target/
 # vim
 *.swp
 *.swo
+#data files
+data/processed/
+data/interim/       
+data raw/
+
 
 # Mypy cache
 .mypy_cache/
