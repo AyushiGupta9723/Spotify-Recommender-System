@@ -83,7 +83,9 @@ target/
 *.swo
  
 #datafile
-/data/
+/data/processed/
+/data/interim/
+/data/raw/User_Listening_History.csv
 
 # Mypy cache
 .mypy_cache/
