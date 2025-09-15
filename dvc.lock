@@ -9,20 +9,20 @@ stages:
       size: 14985870
     - path: src/data/data_cleaning.py
       hash: md5
-      md5: c8f42c6f8988fe8d300ba42c8cbb7acd
-      size: 1703
+      md5: 927383caefcbfc653dd9e7123fc1963d
+      size: 1642
     outs:
     - path: data/interim/cleaned_data.csv
       hash: md5
-      md5: f0760d63fc52a112321c8bfcaf918f20
-      size: 6511888
+      md5: ad73ab9b7c97fed0f3cc26fc9b24f8c6
+      size: 13712182
   transform_data:
     cmd: python src/features/content_based_filtering.py
     deps:
     - path: data/interim/cleaned_data.csv
       hash: md5
-      md5: f0760d63fc52a112321c8bfcaf918f20
-      size: 6511888
+      md5: ad73ab9b7c97fed0f3cc26fc9b24f8c6
+      size: 13712182
     - path: src/features/content_based_filtering.py
       hash: md5
       md5: 515adeda519dc3b2c0b6dc2555a18b33
@@ -61,6 +61,22 @@ stages:
       md5: 4a52e4cb6bae6b0126c1344dac7c7686
       size: 640058
   transform:
+    cmd: python src/models/transform.py
+    deps:
+    - path: data/processed/collab_filtered_data.csv
+      hash: md5
+      md5: c64ae6a9067fa6496cc735ef7d13aac9
+      size: 9072371
+    - path: src/models/transform.py
+      hash: md5
+      md5: 8cac9a4c73019138e19f95958c39443d
+      size: 2044
+    outs:
+    - path: data/processed/transformed_hybrid_data.npz
+      hash: md5
+      md5: 7102800c5b02099aa533376e9cb957e6
+      size: 2991433
+  transformed_filtered_data:
     cmd: python src/models/transform.py
     deps:
     - path: data/processed/collab_filtered_data.csv

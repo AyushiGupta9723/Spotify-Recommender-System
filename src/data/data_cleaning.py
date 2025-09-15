@@ -52,7 +52,6 @@ def main(data_path):
     
     # perform data cleaning
     cleaned_data = clean_data(data)
-    cleaned_data = data_for_content_filtering(cleaned_data)
     
     # saved cleaned data
     cleaned_data.to_csv("data/interim/cleaned_data.csv",index=False)

@@ -28,6 +28,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install category_encoders
+          pip install streamlit
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -40,6 +41,17 @@ jobs:
         run: |
           dvc pull --force 
 
-      - name: Run piepline
+      - name: Run pipeline
         run: |
           dvc repro
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and Push Docker Image
+        if : success()
+        uses: docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/spotify-music-recommender:latest .
+              docker push ${{ secrets.DOCKER_HUB_USERNAME }}/spotify-music-recommender:latest
