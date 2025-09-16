@@ -58,3 +58,16 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/spotify-music-recommender:latest .
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/spotify-music-recommender:latest
+      
+      - name: Deploy to AWS EC2
+        if: success()
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSHKEY }}
+          script: |
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/spotify-music-recommender:latest
+            docker stop spotify-music-recommender || true
+            docker rm spotify-music-recommender || true
+            docker run -d -p 80:8501 --name spotify-music-recommender ${{ secrets.DOCKER_HUB_USERNAME }}/spotify-music-recommender:latest
